@@ -2,11 +2,16 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-sortable-table',
-  templateUrl: './sortable-table.component.html',
-  styleUrls: ['./sortable-table.component.css']
+  templateUrl: './sortable-table.component.html'
 })
 export class SortableTableComponent {
   @Input() events: any[] = [];
+
+  constructor() {}
+
+  ngOnInit() {}
+
+  ngOnDestroy() {}
 
   sortColumn: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
