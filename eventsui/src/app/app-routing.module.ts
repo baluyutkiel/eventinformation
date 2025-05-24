@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EventListComponent } from './features/events/event-list/event-list.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', redirectTo: '/events', pathMatch: 'full' },
+  { path: 'events', component: EventListComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
