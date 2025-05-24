@@ -1,4 +1,4 @@
-export interface Event {
+export interface TickEvent {
     id: string;
     name: string;
     startDate: Date;
