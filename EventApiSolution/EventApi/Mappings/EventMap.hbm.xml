@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="EventApi.Models.Event, EventApi" table="Events">
+    <id name="Id" column="Id" type="string">
+      <generator class="assigned"/>
+    </id>
+    <property name="Name" column="Name"/>
+    <property name="StartsOn" column="StartsOn"/>
+    <property name="EndsOn" column="EndsOn"/>
+    <property name="Location" column="Location"/>
+  </class>
+</hibernate-mapping>
