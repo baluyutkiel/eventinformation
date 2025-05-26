@@ -28,7 +28,7 @@ namespace EventApi.Repositories
                 .ToList();
         }
 
-        public Event GetById(string id)
+        public Event? GetById(string id)
         {
             return _session.Get<Event>(id);
         }

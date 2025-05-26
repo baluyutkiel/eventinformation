@@ -19,7 +19,7 @@ namespace EventApi.Services
             return _repository.GetUpcomingEvents(daysAhead);
         }
 
-        public Event GetEventById(string id)
+        public Event? GetEventById(string id)
         {
             return _repository.GetById(id);
         }

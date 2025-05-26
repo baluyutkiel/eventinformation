@@ -6,6 +6,6 @@ namespace EventApi.Services.Interfaces
     public interface IEventService
     {
         IList<Event> GetUpcomingEvents(int daysAhead);
-        Event GetEventById(string id);
+        Event? GetEventById(string id);
     }
 }
