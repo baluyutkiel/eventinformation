@@ -1,14 +1,39 @@
-<div class="mt-16 px-12">
+<div class="mt-16 px-12 relative">
   <h1 class="text-3xl font-bold mb-2 text-blue-800">Sales Summary Report</h1>
-  <h2 class="text-lg text-blue-600 mb-6">Top 5 Events by Sales</h2>
-
-  <div class="overflow-x-auto rounded-lg shadow">
+  <h2 class="text-lg text-blue-600 mb-6">
+    Top 5 Events by {{ currentFilter === 'amount' ? 'Sales Amount' : 'Sales Count' }}
+  </h2>
+  <div class="absolute top-0 right-0 mt-1 mr-1">
+    <div class="relative inline-flex bg-gray-200 rounded-full p-1 shadow-inner">
+      <button
+        class="px-4 py-1 rounded-full transition-all duration-200 text-sm font-medium"
+        [ngClass]="{
+          'bg-blue-600 text-white shadow': currentFilter === 'amount',
+          'text-blue-800': currentFilter !== 'amount'
+        }"
+        (click)="onFilterChange('amount')">
+        Sales by Amount
+      </button>
+      <button
+        class="px-4 py-1 rounded-full transition-all duration-200 text-sm font-medium"
+        [ngClass]="{
+          'bg-blue-600 text-white shadow': currentFilter === 'count',
+          'text-blue-800': currentFilter !== 'count'
+        }"
+        (click)="onFilterChange('count')">
+        Sales by Count
+      </button>
+    </div>
+  </div>
+  <div class="overflow-x-auto rounded-lg shadow mt-6">
     <table class="min-w-full table-auto border border-gray-200 bg-white">
       <thead class="bg-blue-50 text-blue-800 uppercase text-sm">
         <tr>
-          <th class="px-6 py-3 text-left font-semibold">ID</th>
+          <!-- <th class="px-6 py-3 text-left font-semibold">ID</th> -->
           <th class="px-6 py-3 text-left font-semibold">Name</th>
-          <th class="px-6 py-3 text-left font-semibold">Sales</th>
+          <th class="px-6 py-3 text-left font-semibold">
+            {{ currentFilter === 'amount' ? 'Total Amount (cents)' : 'Sales Count' }}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -16,9 +41,11 @@
           <td colspan="3" class="text-center text-gray-500 py-6">No events to display.</td>
         </tr>
         <tr *ngFor="let event of topEvents; let i = index" [class.bg-gray-50]="i % 2 === 0" class="transition hover:bg-blue-50">
-          <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.id }}</td>
-          <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.name }}</td>
-          <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.sales }}</td>
+          <!-- <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.eventId }}</td> -->
+          <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.eventName }}</td>
+          <td class="px-6 py-4 border-t text-sm text-gray-700">
+            {{ currentFilter === 'amount' ? event.totalAmountInCents : event.salesCount }}
+          </td>
         </tr>
       </tbody>
     </table>
