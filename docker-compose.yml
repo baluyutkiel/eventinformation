@@ -1,0 +1,10 @@
+services:
+  eventapi:
+    platform: linux/amd64
+    build:
+      context: ./EventApiSolution
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./EventApiSolution/Database/skillsAssessmentEvents.db:/app/Database/skillsAssessmentEvents.db
