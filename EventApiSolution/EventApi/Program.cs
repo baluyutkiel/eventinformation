@@ -30,6 +30,9 @@ builder.Services.AddScoped(factory =>
 builder.Services.AddScoped<EventApi.Repositories.Interfaces.IEventRepository, EventApi.Repositories.EventRepository>();
 builder.Services.AddScoped<EventApi.Services.Interfaces.IEventService, EventApi.Services.EventService>();
 
+builder.Services.AddScoped<EventApi.Repositories.Interfaces.ITicketRepository, EventApi.Repositories.TicketRepository>();
+builder.Services.AddScoped<EventApi.Services.Interfaces.ITicketService, EventApi.Services.TicketService>();
+
 builder.WebHost.UseUrls("http://0.0.0.0:80");
 
 var app = builder.Build();

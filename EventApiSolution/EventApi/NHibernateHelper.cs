@@ -30,7 +30,7 @@ namespace EventApi
                         });
 
                         cfg.AddResource("EventApi.Mappings.EventMap.hbm.xml", typeof(NHibernateHelper).Assembly);
-
+                        cfg.AddResource("EventApi.Mappings.TicketSaleMap.hbm.xml", typeof(NHibernateHelper).Assembly);
                         _sessionFactory = cfg.BuildSessionFactory();
                     }
                 }
