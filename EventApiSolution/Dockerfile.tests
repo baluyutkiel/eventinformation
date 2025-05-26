@@ -1,0 +1,14 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS test
+WORKDIR /src
+
+COPY *.sln ./
+COPY EventApi/*.csproj ./EventApi/
+COPY EventApi.Tests/*.csproj ./EventApi.Tests/
+COPY EventApi ./EventApi/
+COPY EventApi.Tests ./EventApi.Tests/
+COPY Database ./Database/
+
+WORKDIR /src/EventApi.Tests
+RUN dotnet restore
+RUN mkdir -p results
+RUN dotnet test --no-restore --logger "trx;LogFileName=results/test_results.trx" --results-directory results

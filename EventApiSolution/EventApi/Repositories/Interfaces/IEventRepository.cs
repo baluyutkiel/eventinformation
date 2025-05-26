@@ -6,6 +6,6 @@ namespace EventApi.Repositories.Interfaces
     public interface IEventRepository
     {
         IList<Event> GetUpcomingEvents(int days);
-        Event GetById(string id);
+        Event? GetById(string id);
     }
 }

@@ -1,3 +1,9 @@
+# to run: docker-compose up
+# to remove containers: docker-compose down --rmi all
+# manually running tests 
+#     cd into EventApiSolution
+#     dotnet test --no-restore --logger "trx;LogFileName=results/test_results.trx"
+
 services:
   eventapi:
     platform: linux/amd64
@@ -8,7 +14,14 @@ services:
       - "8080:80"
     volumes:
       - ./EventApiSolution/Database/skillsAssessmentEvents.db:/app/Database/skillsAssessmentEvents.db
-
+  # eventapi-tests:
+  #   build:
+  #     context: ./EventApiSolution
+  #     dockerfile: Dockerfile.tests
+  #   volumes:
+  #     - ./test-results:/src/EventApi.Tests/results
+  #   depends_on:
+  #     - eventapi
   eventsui:
     build:
       context: ./eventsui
