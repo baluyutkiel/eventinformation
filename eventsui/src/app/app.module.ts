@@ -7,6 +7,7 @@ import { NavbarComponent } from './core/navbar/navbar.component';
 import { EventListComponent } from './features/events/event-list/event-list.component';
 import { SortableTableComponent } from './shared/components/sortable-table/sortable-table.component';
 import { SalesSummaryComponent } from './features/sales-summary/sales-summary.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SalesSummaryComponent } from './features/sales-summary/sales-summary.co
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

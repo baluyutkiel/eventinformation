@@ -8,3 +8,10 @@ services:
       - "8080:80"
     volumes:
       - ./EventApiSolution/Database/skillsAssessmentEvents.db:/app/Database/skillsAssessmentEvents.db
+
+  eventsui:
+    build:
+      context: ./eventsui
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"

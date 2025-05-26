@@ -1,24 +1,71 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TickEvent } from '../../../models/events.model';
+import { BehaviorSubject, switchMap, Subscription, combineLatest } from 'rxjs';
+import { EventService } from '../../../core/services/event.service';
 
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html'
 })
-export class EventListComponent {
-  events: TickEvent[] = [
-    { id: 'e1', name: 'Concert', startDate: new Date('2025-06-01'), endDate: new Date('2025-06-02')},
-    { id: 'e2', name: 'Festival', startDate: new Date('2025-07-10'), endDate: new Date('2025-07-12')},
-    { id: 'e3', name: 'Conference', startDate: new Date('2025-05-15'), endDate: new Date('2025-05-16')},
-    { id: 'e4', name: 'Meetup', startDate: new Date('2025-08-05'), endDate: new Date('2025-08-05')},
-    { id: 'e5', name: 'Workshop', startDate: new Date('2025-09-01'), endDate: new Date('2025-09-01')},
-    { id: 'e6', name: 'Play', startDate: new Date('2025-04-20'), endDate: new Date('2025-04-22')}
-  ];
+export class EventListComponent implements OnInit, OnDestroy {
+  events: TickEvent[] = [];
+  selectedDays = 30;
+  private $filterDays = new BehaviorSubject<number>(30);
+  private $page = new BehaviorSubject<number>(1);
+  private sub!: Subscription;
 
-  
-  constructor() {}
+  page = 1;
+  pageSize = 10;
+  total = 0;
 
-  ngOnInit() {}
+  constructor(private eventService: EventService) {}
 
-  ngOnDestroy() {}
+  ngOnInit() {
+    this.sub = combineLatest([this.$filterDays, this.$page])
+      .pipe(
+        switchMap(([days, page]) => this.eventService.getEvents(days, page, this.pageSize))
+      )
+      .subscribe({
+        next: (response) => {
+          this.events = response.events;
+          this.total = response.total;
+        },
+        error: (err) => console.error('Error loading events:', err)
+      });
+  }
+
+  onFilterDays(days: number) {
+    this.selectedDays = days;
+    this.page = 1;
+    this.$filterDays.next(this.selectedDays);
+    this.$page.next(this.page);
+  }
+
+  get pagedEvents(): TickEvent[] {
+    const start = (this.page - 1) * this.pageSize;
+    return this.events.slice(start, start + this.pageSize);
+  }
+
+  nextPage() {
+    if (this.page < this.totalPages) {
+      this.page++;
+      this.$page.next(this.page);
+    }
+  }
+
+  prevPage() {
+    if (this.page > 1) {
+      this.page--;
+      this.$page.next(this.page);
+    }
+  }
+
+  get totalPages(): number {
+    const total = Math.ceil(this.total / this.pageSize);
+    return total > 0 ? total : 1;
+  }
+
+  ngOnDestroy() {
+    if (this.sub) this.sub.unsubscribe();
+  }
 }

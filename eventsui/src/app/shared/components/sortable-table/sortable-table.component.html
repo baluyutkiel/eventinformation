@@ -22,6 +22,9 @@
         <th class="px-6 py-3 text-left font-semibold cursor-pointer hover:text-blue-600" (click)="sortBy('endDate')">
           End Date
         </th>
+        <th class="px-6 py-3 text-left font-semibold cursor-pointer hover:text-blue-600">
+          Location
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -31,8 +34,9 @@
       <tr *ngFor="let event of events; let i = index" [class.bg-gray-50]="i % 2 === 0" class="transition hover:bg-blue-50">
         <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.id }}</td>
         <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.name }}</td>
-        <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.startDate | date: 'mediumDate'}}</td>
-        <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.endDate | date: 'mediumDate' }}</td>
+        <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.startsOn | date: 'mediumDate'}}</td>
+        <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.endsOn | date: 'mediumDate' }}</td>
+        <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.location }}</td>
       </tr>
     </tbody>
   </table>
