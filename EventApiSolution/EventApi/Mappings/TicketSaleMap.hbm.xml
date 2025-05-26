@@ -1,0 +1,11 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="EventApi.Models.TicketSale, EventApi" table="TicketSales">
+    <id name="Id" column="Id" type="string">
+      <generator class="assigned"/>
+    </id>
+    <property name="EventId" column="EventId"/>
+    <property name="UserId" column="UserId"/>
+    <property name="PurchaseDate" column="PurchaseDate"/>
+    <property name="PriceInCents" column="PriceInCents" type="int" not-null="true"/>
+  </class>
+</hibernate-mapping>

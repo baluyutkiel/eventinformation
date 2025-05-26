@@ -20,7 +20,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
     <PackageReference Include="NHibernate" Version="5.5.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-    <EmbeddedResource Include="Mappings\EventMap.hbm.xml" />
+    <EmbeddedResource Include="Mappings\*.hbm.xml" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
   </ItemGroup>
 
