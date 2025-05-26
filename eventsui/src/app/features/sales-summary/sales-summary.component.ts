@@ -1,34 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { TickEvent } from '../../models/events.model';
-
-interface Event {
-  id: string;
-  name: string;
-  startDate: Date;
-  endDate: Date;
-  sales: number;
-}
+import { SalesSummary } from '../../models/sales-summary';
+import { SalesService } from '../../core/services/sales.service';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sales-summary',
-  templateUrl: './sales-summary.component.html'
+  templateUrl: './sales-summary.component.html',
 })
 export class SalesSummaryComponent implements OnInit {
-  events: any[] = [
-    { id: 'e1', name: 'Concert', startDate: new Date('2025-06-01'), endDate: new Date('2025-06-02'), sales: 1200 },
-    { id: 'e2', name: 'Festival', startDate: new Date('2025-07-10'), endDate: new Date('2025-07-12'), sales: 2500 },
-    { id: 'e3', name: 'Conference', startDate: new Date('2025-05-15'), endDate: new Date('2025-05-16'), sales: 800 },
-    { id: 'e4', name: 'Meetup', startDate: new Date('2025-08-05'), endDate: new Date('2025-08-05'), sales: 600 },
-    { id: 'e5', name: 'Workshop', startDate: new Date('2025-09-01'), endDate: new Date('2025-09-01'), sales: 1500 },
-    { id: 'e6', name: 'Play', startDate: new Date('2025-04-20'), endDate: new Date('2025-04-22'), sales: 900 }
-  ];
+  currentFilter: 'amount' | 'count' = 'amount';
+  topEvents: SalesSummary[] = [];
+  error: string | null = null;
 
-  topEvents: Event[] = [];
+  private byAmount$ = new BehaviorSubject<void>(undefined);
+  private byCount$ = new BehaviorSubject<void>(undefined);
+  private subs = new Subscription();
+
+  constructor(private salesService: SalesService) {}
 
   ngOnInit(): void {
-    // Sort descending by sales and get top 5
-    this.topEvents = this.events
-      .sort((a, b) => b.sales - a.sales)
-      .slice(0, 5);
+    this.subs.add(
+      this.byAmount$.subscribe(() => {
+        this.error = null;
+        this.salesService.getTop5ByAmount().subscribe({
+          next: events => this.topEvents = events,
+          error: () => this.error = 'Failed to load top events by amount.'
+        });
+      })
+    );
+
+    this.subs.add(
+      this.byCount$.subscribe(() => {
+        this.error = null;
+        this.salesService.getTop5ByCount().subscribe({
+          next: events => this.topEvents = events,
+          error: () => this.error = 'Failed to load top events by count.'
+        });
+      })
+    );
+
+    this.byAmount$.next();
+  }
+
+  onFilterChange(filter: 'amount' | 'count'): void {
+    this.currentFilter = filter;
+    if (filter === 'amount') {
+      this.byAmount$.next();
+    } else {
+      this.byCount$.next();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

@@ -2,9 +2,9 @@
   <table class="min-w-full table-auto border border-gray-200 bg-white">
     <thead class="bg-blue-50 text-blue-800 uppercase text-sm">
       <tr>
-        <th class="px-6 py-3 text-left font-semibold cursor-pointer hover:text-blue-600" (click)="sortBy('id')">
+        <!-- <th class="px-6 py-3 text-left font-semibold cursor-pointer hover:text-blue-600" (click)="sortBy('id')">
           ID
-        </th>
+        </th> -->
         <th class="px-6 py-3 text-left font-semibold cursor-pointer hover:text-blue-600" (click)="sortBy('name')">
           Name
           <span *ngIf="sortColumn === 'name'">
@@ -12,14 +12,14 @@
             <span *ngIf="sortDirection === 'desc'">&#9660;</span>
           </span>
         </th>
-        <th class="px-6 py-3 text-left font-semibold cursor-pointer hover:text-blue-600" (click)="sortBy('startDate')">
+        <th class="px-6 py-3 text-left font-semibold cursor-pointer hover:text-blue-600" (click)="sortBy('startsOn')">
           Start Date
-          <span *ngIf="sortColumn === 'startDate'">
+          <span *ngIf="sortColumn === 'startsOn'">
             <span *ngIf="sortDirection === 'asc'">&#9650;</span>
             <span *ngIf="sortDirection === 'desc'">&#9660;</span>
           </span>
         </th>
-        <th class="px-6 py-3 text-left font-semibold cursor-pointer hover:text-blue-600" (click)="sortBy('endDate')">
+        <th class="px-6 py-3 text-left font-semibold cursor-pointer hover:text-blue-600" (click)="sortBy('endsOn')">
           End Date
         </th>
         <th class="px-6 py-3 text-left font-semibold cursor-pointer hover:text-blue-600">
@@ -32,7 +32,7 @@
         <td colspan="4" class="text-center text-gray-500 py-6">No events to display.</td>
       </tr>
       <tr *ngFor="let event of events; let i = index" [class.bg-gray-50]="i % 2 === 0" class="transition hover:bg-blue-50">
-        <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.id }}</td>
+        <!-- <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.id }}</td> -->
         <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.name }}</td>
         <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.startsOn | date: 'mediumDate'}}</td>
         <td class="px-6 py-4 border-t text-sm text-gray-700">{{ event.endsOn | date: 'mediumDate' }}</td>
