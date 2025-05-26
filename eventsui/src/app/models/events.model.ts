@@ -1,6 +1,7 @@
 export interface TickEvent {
     id: string;
     name: string;
-    startDate: Date;
-    endDate: Date;
+    startsOn: Date;
+    endsOn: Date;
+    location?: string;
 }
