@@ -36,7 +36,6 @@ namespace EventApi.Repositories
                 .Take(5)
                 .ToList();
 
-            // Join with events to get the name
             var result = top5
                 .Join(allEvents,
                     sale => sale.EventId,
