@@ -11,4 +11,4 @@ COPY Database ./Database/
 WORKDIR /src/EventApi.Tests
 RUN dotnet restore
 RUN mkdir -p results
-RUN dotnet test --no-restore --logger "trx;LogFileName=results/test_results.trx" --results-directory results
+RUN dotnet test --no-restore --logger "trx;LogFileName=results/test_results.trx"
