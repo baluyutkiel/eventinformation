@@ -5,9 +5,6 @@ A modern event listing and ticket sales platform built with .NET Core and Angula
 - **.NET Core** (API/backend)
 - **Angular** (frontend)
 - **Docker** (containerization and CI/CD)
-
-Supports event browsing, ticket sales, background processing, analytics, and scalable deployment to Azure (AKS, ACR, SQL, Redis).
-
 ---
 
 ## 🚀 Features
@@ -15,10 +12,10 @@ Supports event browsing, ticket sales, background processing, analytics, and sca
 - **.NET Core API**
   - Clean architecture using Repository-Service pattern
   - NHibernate ORM with SQLite (default) or Azure SQL/PostgreSQL
-  - RESTful endpoints for events and tickets
+  - RESTful endpoints for events and ticket sales summary
 
 - **Angular Frontend**
-  - Modern SPA for browsing events, managing tickets
+  - Modern SPA for browsing events within 30 days, 60 days, 180 days
   - Responsive design and UI routing
   - Dockerized for deployment
 
@@ -31,7 +28,7 @@ Supports event browsing, ticket sales, background processing, analytics, and sca
   - Supports local dev and production deployments
 
 - **Cloud-Ready Deployment**
-  - Designed for Azure: AKS, Azure SQL/Postgres, Redis, ACR
+  - Designed ready for cloud deployment: AKS, Azure, Redis, ACR
   - Scalable architecture with CI/CD in mind
 
 - **Architecture Diagrams**
@@ -45,12 +42,14 @@ Supports event browsing, ticket sales, background processing, analytics, and sca
 eventinformation/
 ├── EventApiSolution/
 │   ├── EventApi/              # .NET Core API
+|   ├── Database
 │   ├── EventApi.Tests/        # xUnit Tests
 │   ├── Dockerfile             # API Dockerfile
 │   ├── Dockerfile.tests       # Test runner
 ├── eventsui/                  # Angular frontend
 │   ├── src/
 │   ├── Dockerfile
+|   ├── nginx.conf
 ├── docker-compose.yml         # Docker Orchestration
 ├── test-results/              # Test output
 ├── mermaid.md                 # Mermaid architecture diagrams
@@ -95,7 +94,7 @@ docker compose up eventapi-tests
 
 ```bash
 cd EventApiSolution
-dotnet test --no-restore --logger "trx;LogFileName=results/test_results.trx"
+dotnet test --no-restore --logger "trx;LogFileName=results/test_results.trx" (will need to remount this)
 ```
 
 ---
@@ -138,51 +137,52 @@ services:
 
 ### 📄 Event Listing Page
 
-- [ ] **Fetch Events**  
+- **Fetch Events**  
   Call `/api/events` to retrieve upcoming events.
 
-- [ ] **Display Event Table**  
+- **Display Event Table**  
   Render a responsive and accessible table with the following columns:
   - Event Name
-  - Start Date & Time
-  - End Date & Time
+  - Start Date & Time (startsOn)
+  - End Date & Time (endsOn)
 
-- [ ] **Sorting Functionality**  
+- **Sorting Functionality**  
   Allow users to sort the event list by:
-  - Event Name (alphabetical)
-  - Start Date & Time (chronological)
+  - Event Name (alphabetical - sorts within a page)
+  - Start Date & Time (chronological - sorts within a page)
 
-- [ ] **Error Handling**  
-  Show a user-friendly error message if the API call fails.
+- **Error Handling**  
+  - Show a user-friendly error message if the API call fails.
+  - Implemented catchError to show error messages.
 
 ### 📊 Sales Summary Page
 
-- [ ] **Top 5 Events by Ticket Count**  
-  Fetch and display the top 5 events with the most tickets sold.
+- **Top 5 Events by Ticket Count**  
+  - Fetch and display the top 5 events with the most tickets sold.
 
-- [ ] **Top 5 Events by Revenue**  
-  Fetch and display the top 5 events by total dollar amount in sales.
+- **Top 5 Events by Revenue**  
+  - Fetch and display the top 5 events by total dollar amount in sales.
 
 
 ### 🧭 Navigation & Structure
 
-- [ ] **Routing**  
-  Implement routing between Event Listing and Sales Summary pages.
+- **Routing**  
+  - Implement routing between Event Listing and Sales Summary pages.
 
-- [ ] **Navbar/Header**  
-  Add a simple navigation bar or menu to switch between pages.
+- **Navbar/Header**  
+  - Add a simple navigation bar or menu to switch between pages.
 ---
 ## 🖥️ Backend Feature Requirements
 
 ### 📦 API Development (ASP.NET Core, .NET 8)
 
-- [ ] **/api/events Endpoint**  
+- **/api/events Endpoint**  
   Implement an endpoint that returns a list of upcoming events within the next:
   - 30 days
   - 60 days
   - 180 days
 
-- [ ] **Event Model**  
+- **Event Model**  
   Ensure each event includes:
   - Id
   - Name
@@ -192,34 +192,34 @@ services:
 
 ### 🔁 Services & Dependency Injection
 
-- [ ] **IEventService**  
-  Interface for fetching event data via dependency injection.
+- **IEventService**  
+  - Interface for fetching event data via dependency injection.
 
-- [ ] **ITicketService**  
-  Interface for ticket-related data:
-  - List tickets by Event ID
-  - Top 5 events by ticket count
-  - Top 5 events by total sales amount
+- **ITicketService**  
+  - Interface for ticket-related data:
+    - List tickets by Event ID
+    - Top 5 events by ticket count
+    - Top 5 events by total sales amount
 
 
 ### 🗃️ Data Access Layer (NHibernate)
 
-- [ ] **Event Repository**  
-  Access and map the Events table using NHibernate.
+- **Event Repository**  
+  - Access and map the Events table using NHibernate.
 
-- [ ] **Ticket Repository**  
-  Access and map Tickets, with optimized queries for top-selling events.
+- **Ticket Repository**  
+  - Access and map Tickets, with optimized queries for top-selling events.
 
-- [ ] **NHibernate Mapping Files**  
-  Provide entity-to-table mappings for all relevant database models.
+- **NHibernate Mapping Files**  
+  - Provide entity-to-table mappings for all relevant database models.
 
 ### 🧪 Unit Testing (MSTest / NUnit)
 
-- [ ] **Event Service Tests**  
-  Unit tests for `IEventService`.
+- **Event Service Tests**  
+  - Unit tests for `IEventService`.
 
-- [ ] **Ticket Service Tests**  
-  Unit tests for `ITicketService`.
+- **Ticket Service Tests**  
+  - Unit tests for `ITicketService`.
 ---
 
 ## 📊 Architecture
